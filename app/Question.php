@@ -20,4 +20,17 @@ class Question extends Model
         $this->attributes['slug'] = str_slug($value);
 
     }
+
+    public function getUrlAttribute()
+    {
+        //accessors start with get end with attribute
+        return route('questions.show', $this->id);
+        //pass in question id, since we are inside the question model, simple $this
+    }
+
+    public function getCreatedDateAttribute()
+    {
+        //we define accessors name in camelCase, but when we call it, call it in snake case like created_date
+        return $this->created_at->diffForHumans();
+    }
 }
