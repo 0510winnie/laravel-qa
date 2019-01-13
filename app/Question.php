@@ -20,4 +20,17 @@ class Question extends Model
         $this->attributes['slug'] = str_slug($value);
 
     }
+
+    public function getStatusAttribute()
+    {
+        if ($this->answers > 0) {
+            if ($this->best_answer_id) {
+                //if best_answer_id is not null
+                return 'answered-accepted';
+            }
+            return 'answered' ;
+        } else {
+            return 'unanswered';
+        }
+    }
 }
