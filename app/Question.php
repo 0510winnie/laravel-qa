@@ -21,6 +21,7 @@ class Question extends Model
 
     }
 
+<<<<<<< HEAD
     public function getStatusAttribute()
     {
         if ($this->answers > 0) {
@@ -32,6 +33,8 @@ class Question extends Model
         } else {
             return 'unanswered';
         }
+=======
+>>>>>>> add-author-info
     public function getUrlAttribute()
     {
         //accessors start with get end with attribute
