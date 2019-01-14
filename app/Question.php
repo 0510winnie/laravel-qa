@@ -37,7 +37,7 @@ class Question extends Model
     public function getUrlAttribute()
     {
         //accessors start with get end with attribute
-        return route('questions.show', $this->id);
+        return route('questions.show', $this->slug);
         //pass in question id, since we are inside the question model, simple $this
     }
 
@@ -45,5 +45,10 @@ class Question extends Model
     {
         //we define accessors name in camelCase, but when we call it, call it in snake case like created_date
         return $this->created_at->diffForHumans();
+    }
+
+    public function getBodyHtmlAttribute()
+    {
+        return \Parsedown::instance()->text($this->body);
     }
 }
