@@ -8,7 +8,7 @@
                 <div class="card-header">
                     <div class="d-flex align-items-center">
                         <h2>
-                            Ask Question
+                            Edit Question
                         </h2>
                         <div class="ml-auto">
                             {{-- ml-auto so the button will be positioned at the right --}}
@@ -19,8 +19,9 @@
                 </div>
 
                 <div class="card-body">
-                    <form action="{{ route('questions.store') }}" method="post">
-                        @include('questions._form', ['buttonText' => 'Ask Question'])
+                    <form action="{{ route('questions.update', $question->id) }}" method="post">
+                        @method('PUT')
+                        @include('questions._form', ['buttonText' => 'Update Question'])
                         {{-- we can also pass in data to this partial view --}}
                     </form>
                 </div>
