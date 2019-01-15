@@ -54,7 +54,7 @@ class QuestionPolicy
      */
     public function delete(User $user, Question $question)
     {
-        return $user->id === $question->user_id && $question->answers < 1;
+        return $user->id === $question->user_id && $question->answers_count < 1;
         //if the current user is the creator of the question and the answers for that question is less than 1, which means the question does not have any answer yet, then the creator of the question will be authorized to remove it.
 
     }
