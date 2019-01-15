@@ -8,6 +8,10 @@ use App\Http\Requests\AskQuestionRequest;
 
 class QuestionsController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth', ['except' => ['index', 'show']]);
+    }
     /**
      * Display a listing of the resource.
      *
@@ -73,11 +77,15 @@ class QuestionsController extends Controller
      */
     public function edit(Question $question)
     {
+        // using policy to authorize
+        $this->authorize('update', $question);
+        /*
         if (\Gate::denies('update-question', $question)) {
                 // if gate allows update-question to question instance
                 // note that we don't need to pass in the user instance defined in AuthServiceProvider since Laravel will handle that behind the scenes
             abort(403, "Access denied");
         }
+        */
         return view('questions.edit', compact('question'));
     }
 
@@ -90,9 +98,13 @@ class QuestionsController extends Controller
      */
     public function update(AskQuestionRequest $request, Question $question)
     {
+        /*
         if (\Gate::denies('update-question', $question)) {
             abort(403, "Access denied");
         }
+        */
+
+        $this->authorize('update', $question);
 
         $question->update($request->only('title', 'body'));
 
@@ -107,10 +119,12 @@ class QuestionsController extends Controller
      */
     public function destroy(Question $question)
     {
-
+        /*
         if (\Gate::denies('delete-question', $question)) {
             abort(403, "Access denied");
         }
+        */
+        $this->authorize('delete', $question);
 
         $question->delete();
 
