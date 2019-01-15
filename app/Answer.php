@@ -36,4 +36,9 @@ class Answer extends Model
 
         //this method receives a closure as an argument, in the closure, we can specify an argument to represent the current model instance
     }
+
+    public function getCreatedDateAttribute()
+    {
+        return $this->created_at->diffForHumans();
+    }
 }
