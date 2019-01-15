@@ -22,4 +22,18 @@ class Answer extends Model
     {
         return \Parsedown::instance()->text($this->body);
     }
+
+    public static function boot()
+    {
+        //firstly, call the parent boot method
+        parent::boot();
+
+        //execute some code when a answer model instance is created
+        static::created(function($answer) {
+            $answer->question->increment('answers_count');
+            $answer->question->save(); //to save the changes to db
+        });
+
+        //this method receives a closure as an argument, in the closure, we can specify an argument to represent the current model instance
+    }
 }
