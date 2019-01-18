@@ -80,8 +80,15 @@ class AnswersController extends Controller
      * @param  \App\Answer  $answer
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Answer $answer)
+    public function destroy(Question $question, Answer $answer)
     {
-        //
+        //although $question instance is useless in this method, the reason we defined it is to follow the routes we defined, there are two route parameters
+
+        $this->authorize('delete', $answer);
+        //authorize user
+
+        $answer->delete();
+
+        return back()->with('success', 'Your answer has been removed');
     }
 }

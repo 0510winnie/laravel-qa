@@ -33,10 +33,13 @@ class Answer extends Model
         //execute some code when a answer model instance is created
         static::created(function($answer) {
             $answer->question->increment('answers_count');
-            $answer->question->save(); //to save the changes to db
         });
 
         //this method receives a closure as an argument, in the closure, we can specify an argument to represent the current model instance
+
+        static::deleted(function($answer) {
+            $answer->question->decrement('answers_count');
+        });
     }
 
     public function getCreatedDateAttribute()
