@@ -21,8 +21,14 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 Route::resource('questions', 'QuestionsController')->except('show');
 
-Route::post('/questions/{question}/answers', 'AnswersController@store')->name('answers.store');
+/* Route::post('/questions/{question}/answers', 'AnswersController@store')->name('answers.store');
+*/
+
 // or utilize nested route like this
 Route::resource('questions.answers', 'AnswersController')->except(['index', 'create', 'show']);
 
 Route::get('questions/{slug}', 'QuestionsController@show')->name('questions.show');
+
+Route::post('answers/{answer}/accept', 'AcceptAnswerController')->name('answers.accept');
+//ideally, we need to specify a method here, but for now, let's use single action controller.
+//Single actions controller is a controller that only handles a single action, and because we only have a single action in the controller, here we don't need to specify the action name
