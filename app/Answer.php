@@ -38,12 +38,7 @@ class Answer extends Model
         //this method receives a closure as an argument, in the closure, we can specify an argument to represent the current model instance
 
         static::deleted(function($answer) {
-            $question = $answer->question;
-            $question->decrement('answers_count');
-            if($question->best_answer_id === $answer->id) {
-                $question->best_answer_id = NULL;
-                $question->save();
-            }
+            $answer->question->decrement('answers_count');
         });
     }
 
