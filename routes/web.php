@@ -32,3 +32,8 @@ Route::get('questions/{slug}', 'QuestionsController@show')->name('questions.show
 Route::post('answers/{answer}/accept', 'AcceptAnswerController')->name('answers.accept');
 //ideally, we need to specify a method here, but for now, let's use single action controller.
 //Single actions controller is a controller that only handles a single action, and because we only have a single action in the controller, here we don't need to specify the action name
+
+Route::post('/questions/{question}/favorites', 'FavoritesController@store')->name('questions.favorite');
+Route::delete('/questions/{question}/favorites', 'FavoritesController@destroy')->name('questions.unfavorite');
+
+
