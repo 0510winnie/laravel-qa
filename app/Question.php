@@ -83,4 +83,20 @@ class Question extends Model
     {
         return $this->favorites->count();
     }
+
+    public function votes()
+    {
+        //define the reverse relationship
+        return $this->morphToMany(User::class, 'votable');
+    }
+
+    public function upVotes()
+    {
+        return $this->votes()->where('vote', 1);
+    }
+
+    public function downVotes()
+    {
+        return $this->votes()->where('vote', -1);
+    }
 }

@@ -9,6 +9,6 @@ $factory->define(Question::class, function (Faker $faker) {
         'body' => $faker->paragraphs(rand(3, 7), true), //this convert it into string instead of inside an array
         'views' => rand(0, 10),
         // 'answers_count' => rand(0, 10),
-        'votes' => rand(-3, 10),
+        // 'votes_count' => rand(-3, 10),
     ];
 });
