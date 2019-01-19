@@ -7,29 +7,44 @@
                 </div>
                 <hr>
                 @include('layouts._messages')
+
                 @foreach ($answers as $answer)
-                <div class="media ">
+                <div class="media">
                     <div class="d-flex flex-column vote-controls">
-                        <a title="This answer is useful" class="vote-up">
+                        <a title="This answer is  useful" class="vote-up {{ Auth::guest() ? 'off' : '' }}" onclick="event.preventDefault(); document.getElementById('up-vote-answer-{{ $answer->id }}').submit();">
                             <i class="fas fa-caret-up fa-2x"></i>
                         </a>
-                        <span class="votes-count">1230</span>
-                        <a title="This answer is not useful" class="vote-down off">
+                        <form id="up-vote-answer-{{ $answer->id }}" action="/answers/{{ $answer->id }}/vote"
+                            method="post" style="display: none">
+                            @csrf
+                            <input type="hidden" value="1" name="vote">
+                        </form>
+
+                        <span class="votes-count">{{ $answer->votes_count }}</span>
+
+                        <a title="This answer is not useful" class="vote-down {{ Auth::guest() ? 'off' : '' }}"
+                            onclick="event.preventDefault(); document.getElementById('down-vote-answer-{{ $answer->id }}').submit();">
                             <i class="fas fa-caret-down fa-2x"></i>
                         </a>
+                        <form id="down-vote-answer-{{ $answer->id }}" action="/answers/{{ $answer->id }}/vote"
+                            method="post" style="display: none">
+                            @csrf
+                            <input type="hidden" value="-1" name="vote">
+                        </form>
                         @can('accept', $answer)
-                            <a title="Mark this answer as best answer" class="{{ $answer->status }} mt-2" onclick="event.preventDefault(); document.getElementById('accept-answer-{{ $answer->id }}').submit();">
-                                <i class="fas fa-check fas-2x"></i>
-                            </a>
-                            <form id="accept-answer-{{ $answer->id }}" action="{{ route('answers.accept', $answer->id) }}" method="post" style="display: none;">
-                                @csrf
-                            </form>
+                        <a title="Mark this answer as best answer" class="{{ $answer->status }} mt-2" onclick="event.preventDefault(); document.getElementById('accept-answer-{{ $answer->id }}').submit();">
+                            <i class="fas fa-check fas-2x"></i>
+                        </a>
+                        <form id="accept-answer-{{ $answer->id }}" action="{{ route('answers.accept', $answer->id) }}"
+                            method="post" style="display: none;">
+                            @csrf
+                        </form>
                         @else
-                            @if($answer->is_best)
-                            <a title="The question owner accepted this answer as best answer" class="{{ $answer->status }} mt-2">
-                                <i class="fas fa-check fa-2x"></i>
-                            </a>
-                            @endif
+                        @if($answer->is_best)
+                        <a title="The question owner accepted this answer as best answer" class="{{ $answer->status }} mt-2">
+                            <i class="fas fa-check fa-2x"></i>
+                        </a>
+                        @endif
                         @endcan
                     </div>
                     <div class="media-body">
@@ -40,7 +55,8 @@
                                 <a href="{{ route('questions.answers.edit', [$question->id, $answer->id]) }}" class="btn btn-sm btn-outline-info">Edit</a>
                                 @endcan
                                 @can('delete', $answer)
-                                <form action="{{ route('questions.answers.destroy', [$question->id, $answer->id]) }}" method="post" class="form-delete">
+                                <form action="{{ route('questions.answers.destroy', [$question->id, $answer->id]) }}"
+                                    method="post" class="form-delete">
                                     @method('DELETE')
                                     @csrf
                                     <button type="submit" class="btn btn-sm btn-outline-danger" onclick="return confirm('Are you sure?')">Delete</button>
