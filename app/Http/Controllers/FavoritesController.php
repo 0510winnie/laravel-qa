@@ -19,6 +19,9 @@ class FavoritesController extends Controller
         //make the current question favorited by the current user
         $question->favorites()->attach(auth()->id());
 
+        if(request()->expectsJson()){
+            return response()->json(null, 204);
+        }
         //reload the page
         return back();
     }
@@ -28,6 +31,10 @@ class FavoritesController extends Controller
         //typehint the question instance
         $question->favorites()->detach(auth()->id());
 
+        if(request()->expectsJson()){
+            return response()->json();
+            //since we have nothing to return , we can set it to null, and return a status 204 which indicates the action was executed successfully but there is no content to return
+        }
         return back();
     }
 }
