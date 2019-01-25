@@ -75,7 +75,7 @@ class User extends Authenticatable
         //singular form is the business logic, plural is the relationship
         $voteQuestions = $this->voteQuestions();
 
-        $this->_vote($voteQuestions, $question, $vote);
+        return $this->_vote($voteQuestions, $question, $vote);
     }
 
     public function voteAnswer(Answer $answer, $vote)
@@ -83,7 +83,7 @@ class User extends Authenticatable
 
         $voteAnswers = $this->voteAnswers();
 
-        $this->_vote($voteAnswers, $answer, $vote);
+        return $this->_vote($voteAnswers, $answer, $vote);
 
     }
 
@@ -102,5 +102,7 @@ class User extends Authenticatable
 
         $model->votes_count = $upVotes + $downVotes;
         $model->save();
+
+        return $model->votes_count;
     }
 }
