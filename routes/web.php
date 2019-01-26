@@ -23,7 +23,7 @@ Route::resource('questions', 'QuestionsController')->except('show');
 */
 
 // or utilize nested route like this
-Route::resource('questions.answers', 'AnswersController')->except(['index', 'create', 'show']);
+Route::resource('questions.answers', 'AnswersController')->except(['create', 'show']);
 
 Route::get('questions/{slug}', 'QuestionsController@show')->name('questions.show');
 
