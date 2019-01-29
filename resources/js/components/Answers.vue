@@ -1,4 +1,5 @@
 <template>
+<div>
     <div class="row mt-4" v-cloak v-if="count">
         <div class="col-md-12">
             <div class="card">
@@ -20,10 +21,13 @@
             </div>
         </div>
     </div>
+    <new-answer @created="add" :question-id="questionId"></new-answer>
+</div>
 </template>
 
 <script>
 import Answer from './Answer.vue';
+import NewAnswer from './NewAnswer.vue';
 
 export default {
     props: ['question'],
@@ -55,10 +59,15 @@ export default {
         remove(index){
             this.answers.splice(index, 1);
             this.count--;
+        },
+        add(answer) {
+            this.answers.push(answer);
+            this.count++;
         }
     },
     components: {
-        Answer
+        Answer,
+        NewAnswer
     }
 }
 </script>

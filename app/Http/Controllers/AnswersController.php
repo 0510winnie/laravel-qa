@@ -40,12 +40,22 @@ class AnswersController extends Controller
 
         //simplified version, since from version 5.4, validate method returns an array of data that has been validated, which means passed the validation rules
 
-        $question->answers()->create($request->validate([
+        $answer = $question->answers()->create($request->validate([
             'body' => 'required'
         ]) + ['user_id' => \Auth::id()]);
         //merge these two with + operator
+        //create method returns an answer object, so we can assign it into a variable
+
+        if ($request->expectsJson())
+        {
+            return response()->json([
+                'message'=> 'Your answer has been submitted successfully',
+                'answer' => $answer->load('user')//load method and pass in the relationship name
+            ]);
+        }
 
         return back()->with('success', 'Your answer has been submitted successfully');
+
 
     }
 
